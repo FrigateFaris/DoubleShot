@@ -1,0 +1,60 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Заказы</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Перед вами список всех ваших заказов</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <h3 style="margin-left: 62px;">Принятые...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in courier_orders %}
+                {% if order.status == 'Принято' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'seller_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    <h3 style="margin-left: 62px;">Доставлено...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in courier_orders %}
+                {% if order.status == 'Доставлено' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'seller_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section contact-section" style="margin-top: -100px;">
+      <div class="container mt-5">
+      <h2 class="h4">Заполните данные формы </h2>
+        <div class="col-md-12 mb-3" >
+            <p>что бы <span>оформить заказ</span></p>
+        </div>
+        <div class="row block-9" style="margin-top: 50px;">
+          <div class="col-md-6 ftco-animate">
+            <form action="#" class="contact-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+              <div class="form-group">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        {% if request.user.is_staff %}
+            <div style="margin-left: 110px; margin-top: 50px; display: inline-block">
+                {% if order.status == 'Отказано' %}
+                    <p><a href="{% url 'approved' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Одобрить</a>
+                {% elif order.status == 'Одобренно' %}
+                    <p><a href="{% url 'denied' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Отказать</a>
+                {% else %}
+                    <p><a href="{% url 'approved' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Одобрить</a>
+                    <p><a href="{% url 'denied' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Отказать</a>
+                {% endif %}
+            </div>
+        {% elif request.user.is_courier %}
+            <div style="margin-left: 110px; margin-top: 50px; display: inline-block">
+                {% if order.status == 'Одобренно' %}
+                    <p><a href="{% url 'accepted' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Принять</a>
+                {% elif order.status == 'Принято' %}
+                    <p>Курьер: <span>{{ request.user }}</span></p>
+                    <p><a href="{% url 'delivered' order.slug %}" class="ml-2 btn btn-white btn-outline-white">Доставлено</a>
+                {% endif %}
+            </div>
+        {% endif %}
+          <div class="itemContainer" style="margin-left: 800px; margin-top: -450px;">
+            {% for item in order_item %}
+                <div style="width: 500px; border: 1px solid black; height: 100px; background-color: rgba(0, 0, 0, 0.4);">
+                    <div style="opacity: none">
+                        <img src="{{ item.product.product_image.url }}" width="99px" height="99px" alt="" >
+                    </div>
+                    <p style="margin-top: -95px; margin-left: 120px;"><span>{{ item.product.title }}</span></p>
+                    <p style="margin-top: -10px; margin-left: 120px;">объём: {{ item.product.volume }} ml</p>
+                    <p style="margin-top: -10px; margin-left: 120px;">количество товаров: {{ item.quantity }}</p>
+                    <p style="margin-top: -45px; margin-left: 355px; color: #ebc671;">цена: {{ item.product.price }} сум </p>
+                </div>
+            {% endfor %}
+          </div>
+    </section>
+        <section class="ftco-section" style="margin-left: 700px; margin-top: -150px;">
+          <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+              <div class="col-md-7 heading-section ftco-animate text-center">
+                  <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+                    <h6 class="mb-4">Стоимость заказа: {{ order.total_price }} сум</h6>
+              </div>
+            </div>
+          </div>
+        </section>
+{% endblock %}

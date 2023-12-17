@@ -1,0 +1,21 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Подтвердите действие</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Подтвердите дейтсвие удаления продукта. После нажатия на кнопку "Удалить товар", товар пропадет из базы данных</p>
+              <form action="" method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Удалить товар" class="ml-2 btn btn-white btn-outline-white" style="width: 300px; height: 50px; font-size: 16px;">
+              </form>
+                    <a href="{% url 'category_detail' product.category.slug %}" style="line-height: 50px;"><- Назад</a>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

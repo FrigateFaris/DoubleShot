@@ -1,0 +1,195 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section contact-section" style="margin-top: -100px;">
+      <div class="container mt-5">
+      <h2 class="h4">Здесь вы можете обновить данные пользователя</h2>
+        <div class="col-md-12 mb-3" >
+            <p>что бы <span>обновить данные</span> заполните форму, а затем кликните на кнопку "Изменить"</p>
+        </div>
+        <div class="row block-9" style="margin-top: 50px;">
+          <div class="col-md-6 ftco-animate">
+            <form action="#" class="contact-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+              <div class="form-group">
+                <input type="submit" value="Изменить" class="btn btn-primary py-3 px-5">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section" style="margin-top: -150px;">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Корзина</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Это ваша корзина. Здесь будут отображаться добавленные вами товары</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    	<div class="container-wrap" style="margin-top: -100px;">
+    		<div class="row no-gutters d-flex">
+                {% for item in cart_item %}
+    			<div class="col-lg-4 d-flex ftco-animate" style="border: solid black 1px;">
+    				<div class="services-wrap d-flex">
+						<img src="{{ item.product.product_image.url }}" alt="" class="img">
+    					<div class="text p-4">
+    						<h3>{{ item.product.title }}</h3>
+    						<p>объем: {{ item.product.volume }}<br>процент крепкости: {{ item.product.alcohol_percentage }}%<br>страна произовдства: {{ item.product.brand.country }}<br></p>
+    						<p class="price"><span>{{ item.product.price }} сум</span>
+                            <p>количество товаров:</p>
+                            <form action="{% url 'change_quantity' item.id 'decrement' %}" style="display: inline-block;" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="margin-top: 3px;">-</button>
+                            </form>
+                            <div style="display: inline-block; width: 50px; border: 1px solid black; height: 35px; margin-left: -3px; text-align: center; color: #fff">{{ item.quantity }}</div>
+                            <form action="{% url 'change_quantity' item.id 'increment' %}" style="display: inline-block;" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" style="margin-left: -3px; margin-top: 3px;">+</button>
+                            </form>
+    					</div>
+    				</div>
+    			</div>
+				{% endfor %}
+    		</div>
+    	</div>
+        <section class="ftco-section" style="">
+          <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+              <div class="col-md-7 heading-section ftco-animate text-center">
+                <h3 class="mb-4">Сумма всех товаров: {{ cart.general_price }} сум</h3>
+                <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+                <p><a href="{% url 'order' %}" class="ml-2 btn btn-white btn-outline-white" style="width: 200px; margin-top: 20px;">К заказу!</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="ftco-section" style="margin-top: -150px;">
+          <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+              <div class="col-md-7 heading-section ftco-animate text-center">
+                <h2 class="mb-4">История заказов</h2>
+                <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+                <p class="mt-5">Это ваша история заказов. Здесь будут отображаться все ваши заказы</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <h3 style="margin-left: 62px; margin-top: -150px;">В процессе ожидания...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Ожидание' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+        <h3 style="margin-left: 62px; ">Одобренно</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Одобренно' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    <h3 style="margin-left: 62px;">Отказанно</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Отказано' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    <h3 style="margin-left: 62px; ">Принятые курьером</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Принято' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+        <h3 style="margin-left: 62px; ">Доставленые</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Доставлено' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+{% endblock %}

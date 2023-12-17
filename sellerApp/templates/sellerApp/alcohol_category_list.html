@@ -1,0 +1,90 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Категории</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Перед вами список всех категорий продуктов, вы можете выбрать определенную категорию и просмотреть все продукты с указанной категорией</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ftco-section" style="margin-top: -180px;">
+          <div class="container"  style="">
+            <div class="row" >
+            {% for category in category_list %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px;">
+                    <div class="staff">
+                        <div class="info text-center">
+                            {% if request.user.is_staff %}
+                                <h3><a href="{% url 'category_detail' category.slug %}" name="{{ category }}">{{ category }}</a></h3>
+                            {% else %}
+                                <h3><a href="{% url 'products' category.slug %}" name="{{ category }}">{{ category }}</a></h3>
+                            {% endif %}
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть продукты данной категории, нажмите на название <span>{{ category }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    <section class="ftco-section" style="margin-top: -100px;">
+    	<div class="container">
+    		<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Последние добавленные товары</h2>
+            <p>Ниже вы можете ознакомиться с послденей добавленной колекцией алкаголя и заказать понравишийся</p>
+          </div>
+        </div>
+    	</div>
+    	<div class="container-wrap" style="">
+
+
+    		<div class="row no-gutters d-flex">
+				{% for product in products_last %}
+    			<div class="col-lg-4 d-flex ftco-animate" style="border: solid black 1px;">
+    				<div class="services-wrap d-flex">
+						<img src="{{ product.product_image.url }}" alt="" class="img">
+    					<div class="text p-4">
+    						<h3>{{ product.title }}</h3>
+    						<p>объем: {{ product.volume }}<br>процент крепкости: {{ product.alcohol_percentage }}%<br>страна произовдства: {{ product.brand.country }}</p>
+    						<p class="price"><span>{{ product.price }} сум</span>
+                            {% if request.user.is_staff %}
+                                <p><a href="{% url 'product_detail' product.slug %}" class="ml-2 btn btn-white btn-outline-white">Подробнее</a></p>
+                                <p><a href="{% url 'product_delete' product.slug %}" class="ml-2 btn btn-white btn-outline-white">Удалить товар</a></p>
+                            {% else %}
+                                <p><a href="{% url 'detail_product' product.slug %}" class="ml-2 btn btn-white btn-outline-white">Подробнее</a></p>
+                                {% if user.is_authenticated %}
+                                    <p><a href="{% url 'add_to_cart' product.id %}" class="ml-2 btn btn-white btn-outline-white">Добавить в корзину</a></p>
+                                {% endif %}
+                            {% endif %}
+    					</div>
+    				</div>
+    			</div>
+				{% endfor %}
+
+    		</div>
+    	</div>
+
+    </section>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

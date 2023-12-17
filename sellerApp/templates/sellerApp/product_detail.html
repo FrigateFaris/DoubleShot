@@ -1,0 +1,51 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-about d-md-flex">
+    	<div class="one-half img" style="margin-left: 100px; ">
+                <img src="{{ product.product_image.url }}" alt="" class="img" width="90%" height="90%" style="box-shadow: 0px 0px 15px 10px #000;">
+		</div>
+    	<div class="one-half ftco-animate">
+        <div class="heading-section ftco-animate ">
+          <h2 class="mb-4">{{ product.title }}</h2>
+        </div>
+        <div>
+  				<p>Категория продукта: <span class="position">{{ product.category }}</span> <br>Брэнд продукта: <span class="position"> {{ product.brand.title }}</span><br>Страна изготовления:  <span class="position">{{ product.brand.country }}</span>
+					<br>Дата изготовления:  <span class="position">{{ product.year }} год </span><br>Объём:  <span class="position">{{ product.volume }}ml</span><br>Содержание алкаголя:<span class="position"> {{ product.alcohol_percentage }}%</span>
+					<br>Средняя оценка: <span class="position">{{ product.rating }}</span><br>Количество товаров: <span class="position">{{ product.count }}</span></p>
+					<h3 style="color: #fac564;">{{ product.price }} сум<br>
+					{% if product.discount != 0 %}
+						Скидка: {{ product.discount }}%</h3>
+					{% endif %}
+                    <div style="margin-top: 10px; margin-left: -5px">
+                        {% if request.user.is_staff %}
+                        <p><a href="{% url 'update_product' product.slug %}" class="ml-2 btn btn-white btn-outline-white">Изменить товар</a>
+                        <a href="{% url 'product_delete' product.slug %}" class="ml-2 btn btn-white btn-outline-white">Удалить товар</a></p>
+                        {% else %}
+                            {% if user.is_authenticated %}
+                                <p><a href="{% url 'add_to_cart' product.id %}" class="ml-2 btn btn-white btn-outline-white">Добавить в корзину</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+  			</div>
+                    <a href="{% url 'category_detail' product.category.slug %}" style=""><- Назад</a>
+
+    	</div>
+    </section>
+
+    <section class="ftco-section" style="margin-top: -130px;">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">{{ product.title }}</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">{{ product.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+{% endblock %}

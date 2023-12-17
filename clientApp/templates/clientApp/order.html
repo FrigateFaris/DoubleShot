@@ -1,0 +1,60 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section contact-section" style="margin-top: -100px;">
+      <div class="container mt-5">
+      <h2 class="h4">Заполните данные формы </h2>
+        <div class="col-md-12 mb-3" >
+            <p>что бы <span>оформить заказ</span></p>
+        </div>
+        <div class="row block-9" style="margin-top: 50px;">
+          <div class="col-md-6 ftco-animate">
+            <form action="#" class="contact-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+              <div class="form-group">
+                <input type="submit" value="Заказать!" class="btn btn-primary py-3 px-5">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+<!--            {% for item in cart_items %}-->
+<!--                <div class="col-lg-4 d-flex ftco-animate" style="border: solid black 1px;">-->
+<!--    				<div class="services-wrap d-flex">-->
+<!--						<img src="{{ item.product.product_image.url }}" alt="" class="img">-->
+<!--    					<div class="text p-4">-->
+<!--    						<h3>{{ item.product.title }}</h3>-->
+<!--    						<p>объем: {{ item.product.volume }}<br>процент крепкости: {{ item.product.alcohol_percentage }}%<br>страна произовдства: {{ item.product.brand.country }}<br></p>-->
+<!--    						<p class="price"><span>{{ item.product.price }} сум</span>-->
+<!--                            <p>количество товаров: {{ item.quantity }}</p>-->
+<!--    					</div>-->
+<!--    				</div>-->
+<!--    			</div>-->
+<!--            {% endfor %}-->
+          <div class="itemContainer" style="margin-left: 800px; margin-top: -520px;">
+            {% for item in cart_items %}
+                <div style="width: 500px; border: 1px solid black; height: 100px; background-color: rgba(0, 0, 0, 0.4);">
+                    <div style="opacity: none">
+                        <img src="{{ item.product.product_image.url }}" width="99px" height="99px" alt="" >
+                    </div>
+                    <p style="margin-top: -95px; margin-left: 120px;"><span>{{ item.product.title }}</span></p>
+                    <p style="margin-top: -10px; margin-left: 120px;">объём: {{ item.product.volume }} ml</p>
+                    <p style="margin-top: -10px; margin-left: 120px;">количество товаров: {{ item.quantity }}</p>
+                    <p style="margin-top: -45px; margin-left: 355px; color: #ebc671;">цена: {{ item.product.price }} сум </p>
+                </div>
+            {% endfor %}
+          </div>
+    </section>
+        <section class="ftco-section" style="margin-left: 700px; margin-top: -150px;">
+          <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+              <div class="col-md-7 heading-section ftco-animate text-center">
+                  <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+                    <h6 class="mb-4">Сумма всех товаров (без учета скидочного купона): {{ cart.general_price }} сум</h6>
+              </div>
+            </div>
+          </div>
+        </section>
+{% endblock %}

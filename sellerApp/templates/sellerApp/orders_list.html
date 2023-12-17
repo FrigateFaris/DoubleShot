@@ -1,0 +1,90 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Заказы</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Перед вами список всех заказов</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% if request.user.is_staff %}
+    <h3 style="margin-left: 62px; margin-top: -150px;">Входящие...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Ожидание' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            {% if request.user.is_staff %}
+                                <h3><a href="{% url 'seller_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            {% else %}
+                                <h3><a href="{% url 'courier_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            {% endif %}
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    {% endif %}
+    <h3 style="margin-left: 62px;">Одобренные...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Одобренно' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'seller_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    {% if request.user.is_staff %}
+    <h3 style="margin-left: 62px;">Отказаные...</h3>
+    <section class="ftco-section" style="margin-top: -100px;">
+          <div class="container"  style="">
+            <div class="row" >
+           {% for order in orders %}
+                {% if order.status == 'Отказано' %}
+                <div class="col-lg-3 d-flex mb-sm-4 ftco-animate" style="margin-right: 47.5px; margin-left: 47.5px; margin-top: 50px; display: inline-block">
+                    <div class="staff">
+                        <div class="info text-center">
+                            <h3><a href="{% url 'seller_order_detail' order.slug %}" name="">{{ order.order_date }}</a></h3>
+                            <p style="">сумма: {{ order.total_price }} сум </p>
+                            <div class="text">
+                                <p>Для того, чтобы просмотреть детальную информаци о заказе, нажмите на дату</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+    </section>
+    {% endif %}
+{% endblock %}

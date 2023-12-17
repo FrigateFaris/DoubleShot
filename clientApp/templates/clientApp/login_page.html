@@ -1,0 +1,23 @@
+{% extends "sellerApp/bar.html" %}
+
+{% block content %}
+    <section class="ftco-section contact-section" style="margin-top: -100px;">
+      <div class="container mt-5">
+      <h2 class="h4">Заполните данные формы </h2>
+        <div class="col-md-12 mb-3" >
+            <p>что бы <span>войти в </span>аккаунт</p>
+        </div>
+        <div class="row block-9" style="margin-top: 50px;">
+          <div class="col-md-6 ftco-animate">
+            <form action="#" class="contact-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+              <div class="form-group">
+                <input type="submit" value="Войти" class="btn btn-primary py-3 px-5">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

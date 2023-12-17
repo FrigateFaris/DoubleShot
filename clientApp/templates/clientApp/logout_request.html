@@ -1,0 +1,16 @@
+{% extends "sellerApp/bar.html" %}
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Вы уверены, что хотите выйти из аккаунта?</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Подтвердите оповещение о том, что вы хотите выйти из своего аккаунта, для последующих действий</p>
+              <p><a href="{% url 'logout' %}" class="ml-2 btn btn-white btn-outline-white">Выйти из аккаунта</a>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

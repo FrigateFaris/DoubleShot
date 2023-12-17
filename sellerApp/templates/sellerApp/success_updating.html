@@ -1,0 +1,17 @@
+{% extends 'sellerApp/bar.html' %}
+
+
+{% block content %}
+    <section class="ftco-section" style="">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section ftco-animate text-center">
+            <h2 class="mb-4">Продукт успешно обновленн</h2>
+            <p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
+            <p class="mt-5">Вы успешно обновили продукт, вы можете вернуться обратно к категориям товара для следующих дейтсвий</p>
+            <p><a href="{% url 'category_list' %}" class="ml-2 btn btn-white btn-outline-white">Вернуться к категориям</a>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
