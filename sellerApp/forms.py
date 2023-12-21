@@ -1,7 +1,7 @@
 from django import forms
 
 from clientApp.models import Order
-from sellerApp.models import Product
+from sellerApp.models import Product, Category, Brand
 
 
 class UpdateProductModelForm(forms.ModelForm):
@@ -56,4 +56,23 @@ class OrderSellerModelForm(forms.ModelForm):
             'discount_coupon': forms.TextInput(attrs={'class': 'form-control'}),
             'order_date': forms.DateTimeInput(attrs={'class': 'form-control'}),
             'total_price': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CategoryCreateModelForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('title', )
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
+
+class BrandCreateModelForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ('title', 'country', )
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
         }

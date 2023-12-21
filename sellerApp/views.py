@@ -1,10 +1,12 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, DeleteView, UpdateView
 
 from clientApp.forms import OrderModelForm
 from clientApp.models import Cart, Order, OrderItem
-from .forms import UpdateProductModelForm, CreateProductModelForm, OrderSellerModelForm
+from .forms import UpdateProductModelForm, CreateProductModelForm, OrderSellerModelForm, CategoryCreateModelForm, \
+    BrandCreateModelForm
 from .models import *
 
 
@@ -35,11 +37,21 @@ class AlcoholCategoryDetailPageView(DetailView):
     model = Category
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_name = self.get_object()
-        context['products_list'] = Product.objects.filter(category=category_name)
+        product_list = Product.objects.filter(category=category_name)
+        paginator = Paginator(product_list, self.paginate_by)
+        page = self.request.GET.get('page')
+        try:
+            product_list = paginator.page(page)
+        except PageNotAnInteger:
+            product_list = paginator.page(1)
+        except EmptyPage:
+            product_list = paginator.page(paginator.num_pages)
+        context['products_list'] = product_list
         return context
 
 
@@ -134,3 +146,20 @@ def order_approved_status(request, slug):
     order.status = 'Одобренно'
     order.save()
     return redirect('orders_list')
+
+
+class CategoryCreatePageView(CreateView):
+    template_name = 'sellerApp/category_create.html'
+    model = Category
+    form_class = CategoryCreateModelForm
+    success_url = reverse_lazy('category_list')
+
+
+class BrandCreatePageView(CreateView):
+    template_name = 'sellerApp/category_create.html'
+    model = Category
+    form_class = BrandCreateModelForm
+    success_url = reverse_lazy('category_list')
+
+
+

@@ -41,4 +41,21 @@
     {% endfor %}
      </div>
 </div>
+<div class="pagination" style="margin-top: 100px;">
+    <span class="step-links" style="margin: auto">
+        {% if products_list.has_previous %}
+            <a class="ml-2 btn btn-white btn-outline-white" href="?page=1">&laquo; первая</a>
+            <a class="ml-2 btn btn-white btn-outline-white" href="?page={{ products_list.previous_page_number }}">предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ products_list.number }} из {{ products_list.paginator.num_pages }}
+        </span>
+
+        {% if products_list.has_next %}
+            <a class="ml-2 btn btn-white btn-outline-white" href="?page={{ products_list.next_page_number }}">следующая</a>
+            <a class="ml-2 btn btn-white btn-outline-white" href="?page={{ products_list.paginator.num_pages }}">последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

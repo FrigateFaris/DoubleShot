@@ -47,6 +47,8 @@
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item"><a href="{% url 'category_list' %}" class="nav-link">Категории</a></li>
 	          <li class="nav-item"><a href="{% url 'create_product' %}" class="nav-link">Добавить продукт</a></li>
+	          <li class="nav-item"><a href="{% url 'create_category' %}" class="nav-link">Добавить категорию</a></li>
+	          <li class="nav-item"><a href="{% url 'create_brand' %}" class="nav-link">Добавить бренд</a></li>
 	          <li class="nav-item"><a href="{% url 'orders_list' %}" class="nav-link">Заказы</a></li>
               <li class="nav-item"><a href="{% url 'logout_request' %}" class="nav-link">Выйти из аккаунта</a></li>
               <li class="nav-item"><a href="" class="nav-link">{{ user.username }}</a></li>
@@ -82,11 +84,11 @@
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item"><a href="{% url 'start_page' %}" class="nav-link">Home</a></li>
 	          <li class="nav-item"><a href="{% url 'categories' %}" class="nav-link">Категории</a></li>
-              <li class="nav-item"><a href="{% url 'registration_page' %}" class="nav-link">Зарегистрироваться</a></li>
               {% if user.is_authenticated %}
                 <li class="nav-item"><a href="{% url 'logout_request' %}" class="nav-link">Выйти из аккаунта</a></li>
                 <li class="nav-item"><a href="{% url 'profile' pk=user.pk %}" class="nav-link">{{ user.username }}</a></li>
 	          {% else %}
+                <li class="nav-item"><a href="{% url 'registration_page' %}" class="nav-link">Зарегистрироваться</a></li>
                 <li class="nav-item"><a href="{% url 'login_page' %}" class="nav-link">Войти</a></li>
               {% endif %}
 	        </ul>

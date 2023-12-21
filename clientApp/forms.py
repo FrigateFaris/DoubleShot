@@ -43,9 +43,8 @@ class ClientLoginModelForm(AuthenticationForm):
 class OrderModelForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ('phone_number', 'delivery_address', 'discount_coupon')
+        fields = ('phone_number', 'delivery_address',)
         widgets = {
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'delivery_address': forms.TextInput(attrs={'class': 'form-control'}),
-            'discount_coupon': forms.PasswordInput(attrs={'class': 'form-control'})
         }

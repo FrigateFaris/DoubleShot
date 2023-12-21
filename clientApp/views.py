@@ -2,7 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404, render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, ListView, DetailView, UpdateView
 
 from sellerApp.models import Category
@@ -112,7 +112,7 @@ class CurrentOrderPageView(CreateView):
     template_name = 'clientApp/order.html'
     form_class = OrderModelForm
     model = Order
-    success_url = reverse_lazy('confirmation')
+    success_url = reverse_lazy('start_page')
 
     def form_valid(self, form):
         cart = get_object_or_404(Cart, client=self.request.user)
@@ -131,9 +131,8 @@ class CurrentOrderPageView(CreateView):
                     price=cart_item.product.price
                 )
                 order_item.save()
-
             cart.cartitem_set.all().delete()
-            return redirect('confirmation')
+            return redirect('start_page')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
